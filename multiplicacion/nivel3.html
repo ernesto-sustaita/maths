@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <title>Multiplicación - Nivel 3</title>
+        <script src="../js/jquery.js"></script>
+        <link rel="stylesheet" href="../css/style.css">
+    </head>
+    <body>
+        <h1>Nivel 3 de multiplicación</h1>
+        <h2>Resuelve las siguientes multiplicaciones, tienes 1:30 minutos:</h2>
+        <ul id="ejercicios"></ul>
+        <div id="retroalimentacion" style="display: none;">
+            <div>¡Muy bien!</div>
+            Tu resultado es: <span id="respuestasCorrectas" style="font-weight: bold;"></span>
+        </div>
+        <div id="stopwatch">00:00</div>
+        <div style="margin-top: 5px;">
+            <button id="revisar" onclick="revisar()">Revisar</button>
+            <button id="siguiente" style="display: none;" onclick="siguiente()">Siguiente</button>
+            <button id="reintentar" style="display: none;" onclick="reintentar()">Reintentar</button>
+        </div>
+        <script>
+            var timeoutId = null;
+            var sec = 30;
+            var min = 1;
+            var stopwatch = document.getElementById("stopwatch");
+
+            $( document ).ready(function() {
+                crearEjercicios();
+                iniciar();
+            });
+
+            function crearEjercicios() {
+                for(let i = 0; i < 10; i++) {
+                    let numero1 = Math.floor(Math.random() * 5); 
+                    let numero2 = Math.floor(Math.random() * 5);
+                    let resultado = numero1 * numero2;
+
+                    $("#ejercicios").append("<li>" + numero1 + " x " + numero2 + 
+                        " = <input id='respuesta" + i + "' type='number'></input> <input id='resultado" + i + 
+                        "' type='hidden' value='" + resultado + "'></li>");
+                }
+            }
+
+            function revisar() {
+                let calificacion = 0;
+                for(let i = 0; i < 10; i++) {
+                    if($("#respuesta"+i).val() === $("#resultado"+i).val())
+                        calificacion++;
+                }
+                $("#respuestasCorrectas").html(calificacion);
+                $("#retroalimentacion").show();
+                $("#revisar").prop('disabled',true);
+
+                if(calificacion==10)
+                    $("#siguiente").show();
+                else
+                    $("#reintentar").show();
+            }
+
+            function siguiente() {
+                window.location.href = "nivel4.html";
+            }
+
+            function reintentar() {
+                for(let i = 0; i < 10; i++) {
+                    $("#respuesta"+i).val("");
+                }
+                $("#reintentar").toggle();
+                $("#retroalimentacion").toggle();
+                $("#revisar").prop('disabled',false);
+
+                sec = 30;
+                min = 1;
+
+                iniciar();
+            }
+
+            function iniciar() {
+
+                timeoutId = setTimeout(function() {
+                    sec = parseInt(sec);
+                    min = parseInt(min);
+            
+                    sec--;
+            
+                    if (sec == -1) {
+                        min -= 1;
+                        sec = 59;
+                    }
+                    if (sec < 10) {
+                        sec = '0' + sec;
+                    }
+                    if (min < 10) {
+                        min = '0' + min;
+                    }
+
+                    stopwatch.innerHTML = min + ':' + sec;
+
+                    if(min == '00' && sec == '00')
+                    {
+                        tiempoAgotado();
+                        return;
+                    }
+            
+                    // calling start() function recursivly to continue stopwatch
+                    iniciar();
+            
+                }, 1000); // setTimeout delay time 10 milliseconds
+            }
+
+            function tiempoAgotado() {
+                clearTimeout(timeoutId);
+                revisar();
+            }
+        </script>
+    </body>
+</html>
