@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="es">
     <head>
-        <title>Tabla del 6</title>
+        <title>Tabla del 10</title>
         <script src="../js/jquery.js"></script>
         <link rel="stylesheet" href="../css/style.css">
     </head>
     <body>
-        <h1>Tabla del 6</h1>
-        <h2>Completa la tabla del 6, tienes 1 minuto:</h2>
+        <h1>Tabla del 10</h1>
+        <h2>Completa la tabla del 10, tienes 1 minuto:</h2>
         <ul id="ejercicios"></ul>
         <div id="retroalimentacion" style="display: none;">
             <div>¡Muy bien!</div>
@@ -33,9 +33,9 @@
             function crearEjercicios() {
                 for(let i = 1; i < 11; i++) {
                     let numero1 = Math.floor(Math.random() * 10);
-                    let resultado = 6 * numero1;
+                    let resultado = 10 * numero1;
 
-                    $("#ejercicios").append("<li>" + 6 + " x " + numero1 + 
+                    $("#ejercicios").append("<li>" + 10 + " x " + numero1 + 
                         " = <input id='respuesta" + i + "' type='number'></input> <input id='resultado" + i + 
                         "' type='hidden' value='" + resultado + "'></li>");
                 }
@@ -58,7 +58,7 @@
             }
 
             function siguiente() {
-                window.location.href = "nivel17.html";
+                window.location.href = "index.html";
             }
 
             function reintentar() {
